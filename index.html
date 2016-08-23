@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+	<title>Short Future Co. - BP Vis.</title>
+	<!-- PROJECT STYLES -->
+	<link rel="stylesheet" href="css/styles.css">
+	<!-- LIB SCRIPTS -->
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.3/jquery.min.js"></script>
+	<!-- HEADER SCRIPTS -->
+	<script src="js/sfco-bp-vis.0.0.0.js"></script>
+</head>
+<body>
+	
+	<script>
+		$(document).ready(function() {
+
+			// Define 'options object'.
+			var opts = {
+				queries: [
+					{
+						type: 'all',
+						features: {
+							width: { min: 0, max: 450 }
+						}
+					},
+					{
+						type: 'all',
+						features: {
+							width: { min: 400, max: 600 }
+						}
+					},
+					{
+						type: 'all',
+						features: {
+							height: { min: 400, max: 600 }
+						}
+					},
+					{
+						type: 'all',
+						features: {
+							width: { min: 600 },
+							height: { min: 300, max: 900 }
+						}
+					}
+				]
+			};
+
+
+			// Invoke `sfcoBpVis()`.
+			var bpObj = sfcoBpVis(opts);
+		});
+	</script>
+</body>
+</html>

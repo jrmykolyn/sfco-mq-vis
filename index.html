@@ -2,6 +2,7 @@
 <html>
 <head>
 	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
 	<title>Short Future Co. - BP Vis.</title>
 	<!-- PROJECT STYLES -->
@@ -15,38 +16,79 @@
 	
 	<script>
 		$(document).ready(function() {
-
 			// Define 'options object'.
 			var opts = {
 				queries: [
 					{
 						type: 'all',
-						features: {
-							width: { min: 0, max: 450 }
-						}
+						features: [
+							{ key: 'aspect-ratio', value: '1/1' }
+						]
 					},
 					{
 						type: 'all',
-						features: {
-							width: { min: 400, max: 600 }
-						}
+						features: [
+							{ key: 'min-aspect-ratio', value: '3/2' }
+						]
 					},
 					{
 						type: 'all',
-						features: {
-							height: { min: 400, max: 600 }
-						}
+						features: [
+							{ key: 'max-aspect-ratio', value: '3/2' }
+						]
 					},
 					{
 						type: 'all',
-						features: {
-							width: { min: 600 },
-							height: { min: 300, max: 900 }
-						}
+						features: [
+							{ key: 'orientation', value: 'landscape' }
+						]
+					},
+					{
+						type: 'all',
+						features: [
+							{ key: 'orientation', value: 'portrait' }
+						]
+					},
+					{
+						type: 'all',
+						features: [
+							{ key: 'max-width', value: '500px' }
+						]
+					},
+					{
+						type: 'all',
+						features: [
+							{ key: 'min-width', value: '960px' },
+							{ key: 'max-width', value: '1279px' }
+						]
+					},
+					{
+						features: [
+							{ key: 'min-resolution', value: '1dppx' }
+						]
+					},
+					{
+						features: [
+							{ key: 'min-resolution', value: '2dppx' }
+						]
+					},
+					{
+						features: [
+							{ key: 'min-resolution', value: '72dpi' }
+						]
+					},
+					{
+						features: [
+							{ key: 'min-resolution', value: '144dpi' }
+						]
+					},
+					{
+						features: [
+							{ key: 'min-resolution', value: '300dpi' }
+						]
 					}
 				]
 			};
-
 
 			// Invoke `sfcoBpVis()`.
 			var bpObj = sfcoBpVis(opts);

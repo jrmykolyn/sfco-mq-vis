@@ -13,25 +13,11 @@ body {
 }
 
 .sfco-bp-vis-wrapper {
-	width: 90%;
-	max-width: 300px;
-	display: block;
-
-	margin: 0;
-	padding: 0;
-
-	position: fixed;
-	top: 0;
-	left: 0;
-
-	-webkit-transform: translateX(-100%);
-	-mos-transform: translateX(-100%);
-	-ms-transform: translateX(-100%);
-	transform: translateX(-100%);
+	/* DECLARATIONS ADDED VIA JS */
 }
 
 .sfco-bp-vis-item {
-	width: 105%;
+	width: 100%;
 	height: auto;
 	display: block;
 	color: #FFF;
@@ -43,15 +29,16 @@ body {
 	opacity: 0.4;
 	cursor: pointer;
 
-	-webkit-transition: transform 0.2s ease-in-out, margin-left 0.2s ease-in-out, opacity 0.2s, background-color 0.2s;
-	-moz-transition: transform 0.2s ease-in-out, margin-left 0.2s ease-in-out, opacity 0.2s, background-color 0.2s;
-	transition: transform 0.2s ease-in-out, margin-left 0.2s ease-in-out, opacity 0.2s, background-color 0.2s;
+	transform: translateX( 10% );
+
+	-webkit-transition: transform 0.2s ease-in-out, transform 0.2s ease-in-out, opacity 0.2s, background-color 0.2s;
+	-moz-transition: transform 0.2s ease-in-out, transform 0.2s ease-in-out, opacity 0.2s, background-color 0.2s;
+	transition: transform 0.2s ease-in-out, transform 0.2s ease-in-out, opacity 0.2s, background-color 0.2s;
 }
 
 .sfco-bp-vis-item:hover {
-	
-	margin-left: 100%;
 	opacity: 0.8;
+	transform: translateX( 100% );
 }
 
 .sfco-bp-vis-text {

@@ -41,7 +41,7 @@ try {
 			var wrapper = buildAndReturnWrapperElem(),
 				sheets = [];
 
-			if (opts.queries) {
+			if ( opts.queries ) {
 				for (var i = 0, x = opts.queries.length; i < x; i ++) {
 					var query = opts.queries[i],
 						class_selector,
@@ -51,7 +51,7 @@ try {
 					class_selector = buildClassSelector();
 
 					// Construct styles and add to DOM.
-					sheets.push(buildStyleElemAndAddToDOM(query, class_selector));
+					sheets.push( buildStyleElemAndAddToDOM( query, class_selector ) );
 
 					// Build elem.
 					elem = buildHTMLElem(query, class_selector);
@@ -81,14 +81,28 @@ try {
 
 		/**
 		 * Creates and returns a new 'wrapper' HTML element.
-		 * All 'breakpoint elements' are inserted into 'wrapper'.
+		 *
+		 * NOTE:
+		 * - All 'breakpoint elements' are inserted into 'wrapper'.
 		 *
 		 * @return {HTMLElement}
 		*/
 		function buildAndReturnWrapperElem() {
-			var wrapper = document.createElement('div');
+			var wrapper = document.createElement( 'div' );
+			var styles = '';
 
-			wrapper.setAttribute('class', 'sfco-bp-vis-wrapper');
+			styles += 'width: 90%;';
+			styles += 'max-width: 300px;';
+			styles += 'display: block;';
+			styles += 'margin: 0;';
+			styles += 'padding: 0;';
+			styles += 'position: fixed;';
+			styles += 'top: 0;';
+			styles += 'left: 0;';
+			styles += 'transform: translateX( -100% );';
+
+			wrapper.setAttribute( 'class' , 'sfco-bp-vis-wrapper' );
+			wrapper.setAttribute( 'style' , styles );
 
 			return wrapper;
 		}
@@ -103,34 +117,28 @@ try {
 		 * @param {String} `classSelector`
 		 * @return {HTMLElement}
 		*/
-		function buildHTMLElem(queryData, classSelector) {
+		function buildHTMLElem( queryData, classSelector ) {
 			queryData = queryData || {};
 			classSelector = classSelector || '';
 
-			var elem = document.createElement('div'),
-				text_elem = document.createElement('span'),
+			var elem = document.createElement( 'div' ),
+				text_elem = document.createElement( 'span' ),
 				features = queryData.features || [],
 				feature_data,
 				text_node_arr = [],
 				text_node;
 
-			elem.setAttribute('class', 'sfco-bp-vis-item ' + classSelector);
-			text_elem.setAttribute('class', 'sfco-bp-vis-text');
+			elem.setAttribute( 'class', 'sfco-bp-vis-item ' + classSelector );
+			text_elem.setAttribute( 'class', 'sfco-bp-vis-text' );
 
-			for (var feature_key in features) {
-				feature_data = features[feature_key];
+			features.forEach( function( feature ) {
+				var key = feature.key;
+				var value = feature.value;
 
-				switch (feature_key) {
-				case 'width':
-				case 'height':
-
-					text_node_arr.push(buildFeatureString(feature_key, feature_data));
-
-					break;
-				default:
-					// DO NO THINGS;
+				if ( key && typeof key === 'string' ) {
+					text_node_arr.push( buildFeatureString( key, value ) );
 				}
-			}
+			} );
 
 			text_node = text_node_arr.join(' and ');
 
@@ -166,8 +174,8 @@ try {
 		 * @param {String} `classSelector`
 		 * @return {Object}
 		*/
-		function buildStyleElemAndAddToDOM(queryData, classSelector) {
-			queryData = queryData || {};
+		function buildStyleElemAndAddToDOM( query, classSelector ) {
+			query = query || {};
 			classSelector = classSelector || '';
 
 			// Create the <style> tag
@@ -175,9 +183,9 @@ try {
 				sheet;
 
 			// Build media query string.
-			var media_query = buildMediaQueryFromOpts(queryData);
+			var media_query = buildMediaQueryFromOpts( query );
 
-			style_elem.setAttribute('media', media_query);
+			style_elem.setAttribute( 'media' , media_query );
 
 			// WebKit hack, borrowed from David Walsh:
 			// Insert empty text node into `style_elem`.
@@ -191,7 +199,7 @@ try {
 			sheet = style_elem.sheet;
 
 			// Insert rule into `sheet`.
-			sheet.insertRule('.'  + classSelector + ' { background-color: #20B2AA; margin-left: 100% !important; opacity: 1 !important; }', 0);
+			sheet.insertRule('.'  + classSelector + ' { background-color: #20B2AA; transform: translateX( 100% ) !important; opacity: 1 !important; }', 0);
 
 			return sheet;
 		}
@@ -204,38 +212,30 @@ try {
 		 * @param {Object} `queryData`
 		 * @return {String}
 		*/
-		function buildMediaQueryFromOpts(queryData) {
-			queryData = queryData || {};
+		function buildMediaQueryFromOpts( query ) {
+			query = query || {};
 
 			// Initialize local vars.
 			var output = '',
-				media_type = queryData.type || 'all',
-				features = queryData.features || null,
-				features_arr = [],
+				media_type = query.type || 'all',
+				features = query.features || null,
+				conditions = [],
 				feature_data;
 
-			if (features) {
-				for (var feature_key in features) {
-					feature_data = features[feature_key];
+			features.forEach( function( feature ) {
+				var key = feature.key;
+				var value = feature.value;
 
-					switch (feature_key) {
-					case 'width':
-					case 'height':
-
-						features_arr.push(buildFeatureString(feature_key, feature_data));
-
-						break;
-					default:
-							// DO NO THINGS;
-					}
+				if ( key && typeof key === 'string' ) {
+					conditions.push( buildFeatureString( key, value ) );
 				}
-			}
+			} );
 
 			output += media_type;
 
-			if (features_arr.length) {
+			if ( conditions.length ) {
 				output += ' and ';
-				output += features_arr.join(' and ');
+				output += conditions.join(' and ');
 			}
 
 			return output;
@@ -250,29 +250,17 @@ try {
 		 * @param {Object} `featureData`
 		 * @return {String}
 		*/
-		function buildFeatureString(featureKey, featureData) {
-			featureKey = (typeof featureKey === 'string') ? featureKey : '';
-			featureData = (typeof featureData === 'object') ? featureData : {};
+		function buildFeatureString( key, value) {
+			key = ( typeof key === 'string' ) ? key : '';
+			value = ( typeof key !== 'undefined' ) ? value : null;
 
-			var output = '',
-				arr = [],
-				str = '';
+			var output = '';
 
-			for (var key in featureData) {
-				switch (key) {
-				case 'min':
-				case 'max':
-					str = ('(' + key + '-' + featureKey + ': ' + featureData[key] + 'px)');
-					arr.push(str);
-					break;
-				default:
-					// DO NO THINGS;
-				}
-			}
-
-			if (arr.length) {
-				output = arr.join(' and ');
-			}
+			output += '(';
+			output += key;
+			output += ':';
+			output += value;
+			output += ')';
 
 			return output;
 		}

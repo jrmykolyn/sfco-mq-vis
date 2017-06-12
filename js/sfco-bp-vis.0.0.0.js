@@ -1,3 +1,7 @@
+/** global
+	console
+*/
+
 /**
  * BP Vis. is a JavaScript utility that allows developers
  * to quickly 'visualize' one or more media queries.
@@ -44,17 +48,17 @@ try {
 			if ( opts.queries ) {
 				for ( var i = 0, x = opts.queries.length; i < x; i ++ ) {
 					var query = opts.queries[i],
-						class_selector,
+						classSelector,
 						elem;
 
 					// Build selector.
-					class_selector = buildClassSelector();
+					classSelector = buildClassSelector();
 
 					// Construct styles and add to DOM.
-					sheets.push( buildStyleElemAndAddToDOM( query, class_selector ) );
+					sheets.push( buildStyleElemAndAddToDOM( query, classSelector ) );
 
 					// Build elem.
-					elem = buildHTMLElem( query, class_selector );
+					elem = buildHTMLElem( query, classSelector );
 
 					// Add elem. to `wrapper`.
 					addElemToContainer( elem, wrapper );
@@ -122,28 +126,27 @@ try {
 			classSelector = classSelector || '';
 
 			var elem = document.createElement( 'div' ),
-				text_elem = document.createElement( 'span' ),
+				textElem = document.createElement( 'span' ),
 				features = queryData.features || [],
-				feature_data,
-				text_node_arr = [],
-				text_node;
+				textNodeArr = [],
+				textNode;
 
 			elem.setAttribute( 'class', 'sfco-bp-vis-item ' + classSelector );
-			text_elem.setAttribute( 'class', 'sfco-bp-vis-text' );
+			textElem.setAttribute( 'class', 'sfco-bp-vis-text' );
 
 			features.forEach( function( feature ) {
 				var key = feature.key;
 				var value = feature.value;
 
 				if ( key && typeof key === 'string' ) {
-					text_node_arr.push( buildFeatureString( key, value ) );
+					textNodeArr.push( buildFeatureString( key, value ) );
 				}
 			} );
 
-			text_node = text_node_arr.join( ' and ' );
+			textNode = textNodeArr.join( ' and ' );
 
-			text_elem.appendChild( document.createTextNode( text_node ) );
-			elem.appendChild( text_elem );
+			textElem.appendChild( document.createTextNode( textNode ) );
+			elem.appendChild( textElem );
 
 			return elem;
 		}
@@ -158,9 +161,9 @@ try {
 		*/
 		function buildClassSelector() {
 			var output = 'sfco-bp-vis-item--',
-				num_str = Math.random().toString().substring( 2, 20 );
+				numStr = Math.random().toString().substring( 2, 20 );
 
-			return output + num_str;
+			return output + numStr;
 		}
 
 
@@ -179,24 +182,24 @@ try {
 			classSelector = classSelector || '';
 
 			// Create the <style> tag
-			var style_elem = document.createElement( 'style' ),
+			var styleElem = document.createElement( 'style' ),
 				sheet;
 
 			// Build media query string.
-			var media_query = buildMediaQueryFromOpts( query );
+			var mediaQuery = buildMediaQueryFromOpts( query );
 
-			style_elem.setAttribute( 'media' , media_query );
+			styleElem.setAttribute( 'media' , mediaQuery );
 
 			// WebKit hack, borrowed from David Walsh:
-			// Insert empty text node into `style_elem`.
-			style_elem.appendChild( document.createTextNode( '' ) );
+			// Insert empty text node into `styleElem`.
+			styleElem.appendChild( document.createTextNode( '' ) );
 
-			// Add `style_elem` to DOM.
-			document.head.appendChild( style_elem );
+			// Add `styleElem` to DOM.
+			document.head.appendChild( styleElem );
 
 			// Update `sheet` var.
 			// NOTE: Will error if assignment occurs *before* the <style> elem. is added to the DOM.
-			sheet = style_elem.sheet;
+			sheet = styleElem.sheet;
 
 			// Insert rule into `sheet`.
 			sheet.insertRule( '.'  + classSelector + ' { background-color: #20B2AA; transform: translateX( 100% ) !important; opacity: 1 !important; }', 0 );
@@ -217,10 +220,9 @@ try {
 
 			// Initialize local vars.
 			var output = '',
-				media_type = query.type || 'all',
+				type = query.type || 'all',
 				features = query.features || null,
-				conditions = [],
-				feature_data;
+				conditions = [];
 
 			features.forEach( function( feature ) {
 				var key = feature.key;
@@ -231,7 +233,7 @@ try {
 				}
 			} );
 
-			output += media_type;
+			output += type;
 
 			if ( conditions.length ) {
 				output += ' and ';

@@ -22,7 +22,7 @@
 
 try {
 
-	(function() {
+	( function() {
 		/* -------------------------------------------------- */
 		/* Private Functions */
 		/* -------------------------------------------------- */
@@ -31,18 +31,18 @@ try {
 		 *
 		 * @param {Object} `opts`
 		*/
-		function init(opts) {
+		function init( opts ) {
 			opts = opts || null;
 
 			// Break out of function if no `opts` provided.
-			if (!opts) { throw 'Did not receive `opts` argument on initialization.'; }
+			if ( !opts ) { throw 'Did not receive `opts` argument on initialization.'; }
 
 			// Construct, insert, and return `wrapper`.
 			var wrapper = buildAndReturnWrapperElem(),
 				sheets = [];
 
 			if ( opts.queries ) {
-				for (var i = 0, x = opts.queries.length; i < x; i ++) {
+				for ( var i = 0, x = opts.queries.length; i < x; i ++ ) {
 					var query = opts.queries[i],
 						class_selector,
 						elem;
@@ -54,15 +54,15 @@ try {
 					sheets.push( buildStyleElemAndAddToDOM( query, class_selector ) );
 
 					// Build elem.
-					elem = buildHTMLElem(query, class_selector);
+					elem = buildHTMLElem( query, class_selector );
 
 					// Add elem. to `wrapper`.
-					addElemToContainer(elem, wrapper);
+					addElemToContainer( elem, wrapper );
 				}
 			}
 
 			// Add `wrapper` to DOM.
-			addElemToContainer(wrapper, document.getElementsByTagName('body')[0]);
+			addElemToContainer( wrapper, document.getElementsByTagName( 'body' )[0] );
 
 			return { sheets: sheets };
 		}
@@ -74,8 +74,8 @@ try {
 		 * @param {HTMLElement} `elem`
 		 * @param {HTMLElement} `container`
 		*/
-		function addElemToContainer(elem, container) {
-			container.appendChild(elem);
+		function addElemToContainer( elem, container ) {
+			container.appendChild( elem );
 		}
 
 
@@ -140,7 +140,7 @@ try {
 				}
 			} );
 
-			text_node = text_node_arr.join(' and ');
+			text_node = text_node_arr.join( ' and ' );
 
 			text_elem.appendChild( document.createTextNode( text_node ) );
 			elem.appendChild( text_elem );
@@ -158,7 +158,7 @@ try {
 		*/
 		function buildClassSelector() {
 			var output = 'sfco-bp-vis-item--',
-				num_str = Math.random().toString().substring(2, 20);
+				num_str = Math.random().toString().substring( 2, 20 );
 
 			return output + num_str;
 		}
@@ -179,7 +179,7 @@ try {
 			classSelector = classSelector || '';
 
 			// Create the <style> tag
-			var style_elem = document.createElement('style'),
+			var style_elem = document.createElement( 'style' ),
 				sheet;
 
 			// Build media query string.
@@ -199,7 +199,7 @@ try {
 			sheet = style_elem.sheet;
 
 			// Insert rule into `sheet`.
-			sheet.insertRule('.'  + classSelector + ' { background-color: #20B2AA; transform: translateX( 100% ) !important; opacity: 1 !important; }', 0);
+			sheet.insertRule( '.'  + classSelector + ' { background-color: #20B2AA; transform: translateX( 100% ) !important; opacity: 1 !important; }', 0 );
 
 			return sheet;
 		}
@@ -235,7 +235,7 @@ try {
 
 			if ( conditions.length ) {
 				output += ' and ';
-				output += conditions.join(' and ');
+				output += conditions.join( ' and ' );
 			}
 
 			return output;
@@ -250,7 +250,7 @@ try {
 		 * @param {Object} `featureData`
 		 * @return {String}
 		*/
-		function buildFeatureString( key, value) {
+		function buildFeatureString( key, value ) {
 			key = ( typeof key === 'string' ) ? key : '';
 			value = ( typeof key !== 'undefined' ) ? value : null;
 
@@ -268,12 +268,12 @@ try {
 		/* -------------------------------------------------- */
 		/* Public API */
 		/* -------------------------------------------------- */
-		if (typeof window.sfcoBpVis === 'undefined') {
+		if ( typeof window.sfcoBpVis === 'undefined' ) {
 			window.sfcoBpVis = init;
 		}
-	})();
+	} )();
 
-} catch (error) {
-	console.log('ERROR: Failed to execute `sfcoBpVis` due to the following:');
-	console.log(error);
+} catch ( error ) {
+	console.log( 'ERROR: Failed to execute `sfcoBpVis` due to the following:' );
+	console.log( error );
 }

@@ -41,7 +41,10 @@ try {
 			// Break out of function if no `opts` provided.
 			if ( !opts ) { throw 'Did not receive `opts` argument on initialization.'; }
 
-			// Construct, insert, and return `wrapper`.
+			// Add 'base' stylesheets to document.
+			buildAndInsertBaseStyles();
+
+			// Declare vars.
 			var wrapper = buildAndReturnWrapperElem(),
 				sheets = [];
 
@@ -73,6 +76,85 @@ try {
 
 
 		/**
+		 * ...
+		 */
+		/// TODO[@jrmykolyn] - Add documentation.
+		/// TODO[@jrmykolyn] - Consolidate <style> elem. costruction with duplicate logic in other function.
+		function buildAndInsertBaseStyles() {
+			var styleElem = document.createElement( 'style' );
+			var sheet;
+
+			// WebKit hack, borrowed from David Walsh:
+			// Insert empty text node into `styleElem`.
+			styleElem.appendChild( document.createTextNode( '' ) );
+
+			// Add `styleElem` to DOM.
+			document.head.appendChild( styleElem );
+
+			// Update `sheet` var.
+			// NOTE: Will error if assignment occurs *before* the <style> elem. is added to the DOM.
+			sheet = styleElem.sheet;
+
+			// Build and insert rule(s).
+			var decBlock = '';
+
+			// ...
+			decBlock += 'width: 90%;';
+			decBlock += 'max-width: 300px;';
+			decBlock += 'display: block;';
+			decBlock += 'margin: 0;';
+			decBlock += 'padding: 0;';
+			decBlock += 'position: fixed;';
+			decBlock += 'top: 0;';
+			decBlock += 'left: 0;';
+			decBlock += 'transform: translateX( -100% );';
+
+			sheet.insertRule( '.sfco-bp-vis-wrapper {' + decBlock + '}', 0 );
+
+			// ...
+			decBlock = '';
+			decBlock += 'width: 100%;';
+			decBlock += 'height: auto;';
+			decBlock += 'display: block;';
+			decBlock += 'color: #FFF;';
+			decBlock += 'background-color: #778899;';
+			decBlock += 'margin-bottom: 0.125rem;';
+			decBlock += 'padding: 8px;';
+			decBlock += 'opacity: 0.4;';
+			decBlock += 'transform: translateX( 10% );';
+			decBlock += '-webkit-transition: transform 0.2s ease-in-out, transform 0.2s ease-in-out, opacity 0.2s, background-color 0.2s;';
+			decBlock += 'transition: transform 0.2s ease-in-out, transform 0.2s ease-in-out, opacity 0.2s, background-color 0.2s;';
+
+			sheet.insertRule( '.sfco-bp-vis-item {' + decBlock + '}', 0 );
+
+			// ...
+			decBlock = '';
+			decBlock += 'opacity: 0.8;';
+			decBlock += 'transform: translateX( 100% );';
+
+			sheet.insertRule( '.sfco-bp-vis-item:hover {' + decBlock + '}', 0 );
+
+			// ...
+			decBlock = '';
+			decBlock += 'width: 100%;';
+			decBlock += 'height: auto;';
+			decBlock += 'display: block;';
+			decBlock += 'font-family: monospace;';
+			decBlock += 'font-size: 11px;';
+			decBlock += 'font-weight: 400;';
+			decBlock += 'text-align: right;';
+			decBlock += 'line-height: 1;';
+			decBlock += 'white-space: nowrap;';
+			decBlock += 'text-overflow: ellipsis;';
+			decBlock += 'overflow: hidden;';
+
+			sheet.insertRule( '.sfco-bp-vis-text {' + decBlock + '}', 0 );
+
+			return styleElem;
+		}
+
+
+		/**
 		 * Function adds a given `elem` to the target `container`.
 		 *
 		 * @param {HTMLElement} `elem`
@@ -93,20 +175,8 @@ try {
 		*/
 		function buildAndReturnWrapperElem() {
 			var wrapper = document.createElement( 'div' );
-			var styles = '';
-
-			styles += 'width: 90%;';
-			styles += 'max-width: 300px;';
-			styles += 'display: block;';
-			styles += 'margin: 0;';
-			styles += 'padding: 0;';
-			styles += 'position: fixed;';
-			styles += 'top: 0;';
-			styles += 'left: 0;';
-			styles += 'transform: translateX( -100% );';
 
 			wrapper.setAttribute( 'class' , 'sfco-bp-vis-wrapper' );
-			wrapper.setAttribute( 'style' , styles );
 
 			return wrapper;
 		}

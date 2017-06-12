@@ -17,41 +17,13 @@ body {
 }
 
 .sfco-bp-vis-item {
-	width: 100%;
-	height: auto;
-	display: block;
-	color: #FFF;
-	background-color: #778899;
-
-	margin-bottom: 0.125rem;
-	padding: 8px;
-
-	opacity: 0.4;
-	cursor: pointer;
-
-	transform: translateX( 10% );
-
-	-webkit-transition: transform 0.2s ease-in-out, transform 0.2s ease-in-out, opacity 0.2s, background-color 0.2s;
-	-moz-transition: transform 0.2s ease-in-out, transform 0.2s ease-in-out, opacity 0.2s, background-color 0.2s;
-	transition: transform 0.2s ease-in-out, transform 0.2s ease-in-out, opacity 0.2s, background-color 0.2s;
+	/* DECLARATIONS ADDED VIA JS */
 }
 
 .sfco-bp-vis-item:hover {
-	opacity: 0.8;
-	transform: translateX( 100% );
+	/* DECLARATIONS ADDED VIA JS */
 }
 
 .sfco-bp-vis-text {
-	width: 100%;
-	height: auto;
-	display: block;
-
-	font-family: monospace;
-	font-size: 11px;
-	font-weight: 400;
-	text-align: right;
-	line-height: 1;
-	white-space: nowrap;
-	text-overflow: ellipsis;
-	overflow: hidden;
+	/* DECLARATIONS ADDED VIA JS */
 }

@@ -10,6 +10,12 @@ module.exports = {
 		"sourceType": "module"
 	},
 	"rules": {
+		"no-console": [
+			"error",
+			{ "allow": [
+				"log", "warn", "error"
+			] }
+		],
 		"space-in-parens": [
 			"error",
 			"always"

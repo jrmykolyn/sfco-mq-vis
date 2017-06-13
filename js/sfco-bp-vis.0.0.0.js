@@ -3,19 +3,14 @@
 */
 
 /**
- * BP Vis. is a JavaScript utility that allows developers
- * to quickly 'visualize' one or more media queries.
+ * MQ Vis. (Media Query Visualizer) is a JavaScript utility that allows developers to quickly 'visualize' one or more media queries.
  *
- * On initialization, BP Vis. is given a series of objects
- * containing media query information (media type, features,
- * etc.). BP Vis. builds an HTML element and stylesheet for
- * each query, and inserts both into the DOM.
+ * On initialization, MQ Vis. is given a series of objects containing media query information (media type, features, etc.).
+ * MQ Vis. builds an HTML element and stylesheet for each query, and inserts both into the DOM.
  *
- * When a given query is satisfied, its associated HTML element
- * will become visible within the viewport.
+ * When a given query is satisfied, its associated HTML element will become visible within the viewport.
  *
- * @summary   BP Vis. is a JavaScript utility that allows developers
- * 						to quickly 'visualize' one or more media queries.
+ * @summary   MQ Vis. is a JavaScript utility that allows developers to quickly 'visualize' one or more media queries.
  *
  * @link      N/A
  * @since     0.0.0
@@ -32,7 +27,7 @@ try {
 		/* -------------------------------------------------- */
 		var DEFAULTS = {
 			identifiers: {
-				namespace: 'sfco-bp-vis',
+				namespace: 'sfco-mq-vis',
 				wrapper: 'wrapper',
 				item: 'item',
 				text: 'text',
@@ -371,12 +366,12 @@ try {
 		/* -------------------------------------------------- */
 		/* Public API */
 		/* -------------------------------------------------- */
-		if ( typeof window.sfcoBpVis === 'undefined' ) {
-			window.sfcoBpVis = init;
+		if ( typeof window.mqVis === 'undefined' ) {
+			window.mqVis = init;
 		}
 	} )();
 
 } catch ( error ) {
-	console.log( 'ERROR: Failed to execute `sfcoBpVis` due to the following:' );
+	console.log( 'ERROR: Failed to execute `mqVis` due to the following:' );
 	console.log( error );
 }

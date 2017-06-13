@@ -2,12 +2,12 @@
 // --------------------------------------------------
 // IMPORT MODULES
 // --------------------------------------------------
-var mqVis = require( '../../../' );
+var MqVis = require( '../../../' );
 
 // --------------------------------------------------
 // INIT
 // --------------------------------------------------
-window.mqVis = mqVis;
+window.MqVis = MqVis;
 
 },{"../../../":2}],2:[function(require,module,exports){
 /**
@@ -47,6 +47,7 @@ var DEFAULTS = {
 		namespace: 'sfco-mq-vis',
 		wrapper: 'wrapper',
 		item: 'item',
+		itemDismiss: 'item-dismiss',
 		text: 'text',
 		joinWith: '-'
 	}
@@ -97,56 +98,101 @@ function buildAndInsertBaseStyles() {
 	var decBlock = '';
 
 	// ...
-	decBlock += 'width: 90%;';
-	decBlock += 'max-width: 300px;';
+	decBlock += 'width: 100%;';
+	decBlock += 'height: 100%;';
 	decBlock += 'display: block;';
+	decBlock += 'background-color: #EFEFEF;';
 	decBlock += 'margin: 0;';
-	decBlock += 'padding: 0;';
+	decBlock += 'padding: 50px 20px;';
 	decBlock += 'position: fixed;';
 	decBlock += 'top: 0;';
 	decBlock += 'left: 0;';
-	decBlock += 'transform: translateX( -100% );';
+	decBlock += 'overflow: auto;';
 
 	sheet.insertRule( getClass( 'wrapper' ) + '{' + decBlock + '}', 0 );
 
 	// ...
 	decBlock = '';
 	decBlock += 'width: 100%;';
+	decBlock += 'max-width: 600px;';
 	decBlock += 'height: auto;';
 	decBlock += 'display: block;';
 	decBlock += 'color: #FFF;';
-	decBlock += 'background-color: #778899;';
-	decBlock += 'margin-bottom: 0.125rem;';
-	decBlock += 'padding: 8px;';
-	decBlock += 'opacity: 0.4;';
-	decBlock += 'transform: translateX( 10% );';
+	decBlock += 'background-color: #666;';
+	decBlock += 'margin: 0 auto;';
+	decBlock += 'margin-bottom: 10px;';
+	decBlock += 'padding: 20px; 50px;';
+	decBlock += 'opacity: 0.3;';
 	decBlock += '-webkit-transition: transform 0.2s ease-in-out, transform 0.2s ease-in-out, opacity 0.2s, background-color 0.2s;';
 	decBlock += 'transition: transform 0.2s ease-in-out, transform 0.2s ease-in-out, opacity 0.2s, background-color 0.2s;';
+	decBlock += 'position: relative;';
 
 	sheet.insertRule( getClass( 'item' ) + '{' + decBlock + '}', 0 );
-
-	// ...
-	decBlock = '';
-	decBlock += 'opacity: 0.8;';
-	decBlock += 'transform: translateX( 100% );';
-
-	sheet.insertRule( getClass( 'item' ) + ':hover {' + decBlock + '}', 0 );
 
 	// ...
 	decBlock = '';
 	decBlock += 'width: 100%;';
 	decBlock += 'height: auto;';
 	decBlock += 'display: block;';
-	decBlock += 'font-family: monospace;';
-	decBlock += 'font-size: 11px;';
-	decBlock += 'font-weight: 400;';
-	decBlock += 'text-align: right;';
+	decBlock += 'color: #000;';
+	decBlock += 'font-family: Helvetica, Arial, sans-serif;';
+	decBlock += 'font-size: 18px;';
+	decBlock += 'font-weight: 500;';
+	decBlock += 'text-align: center;';
 	decBlock += 'line-height: 1;';
+	decBlock += 'letter-spacing: 0.5px;';
 	decBlock += 'white-space: nowrap;';
 	decBlock += 'text-overflow: ellipsis;';
 	decBlock += 'overflow: hidden;';
+	decBlock += 'opacity: 0.8;';
 
 	sheet.insertRule( getClass( 'text' ) + '{' + decBlock + '}', 0 );
+
+	// ...
+	decBlock = '';
+	decBlock += 'width: 26px;';
+	decBlock += 'height: 26px;';
+	decBlock += 'display: block;';
+	decBlock += 'position: absolute;';
+	decBlock += 'top: 50%;';
+	decBlock += 'right: 15px;';
+	decBlock += '-webkit-transform: translateY( -50% );';
+	decBlock += 'transform: translateY( -50% );';
+	decBlock += 'opacity: 0.5;';
+	decBlock += '-webkit-transition: all 0.25s;';
+	decBlock += 'transition: all 0.25s;';
+
+	sheet.insertRule( getClass( 'itemDismiss' ) + '{' + decBlock + '}', 0 );
+
+	// ...
+	decBlock = '';
+	decBlock += 'opacity: 1;';
+
+	sheet.insertRule( getClass( 'itemDismiss' ) + ':hover, ' + getClass( 'itemDismiss' ) + ':focus {' + decBlock + '}', 0 );
+
+	// ...
+	decBlock = '';
+	decBlock += 'content: "";';
+	decBlock += 'width: 80%;';
+	decBlock += 'height: 3px;';
+	decBlock += 'display: block;';
+	decBlock += 'background-color: #000;';
+	decBlock += 'position: absolute;';
+	decBlock += 'top: 50%;';
+	decBlock += 'left: 50%;';
+	decBlock += '-webkit-transform: translate( -50%, -50% ) rotate( 45deg );';
+	decBlock += 'transform: translate( -50%, -50% ) rotate( 45deg );';
+	decBlock += 'transform-origin: center;';
+
+	console.log( decBlock );
+
+	sheet.insertRule( getClass( 'itemDismiss' ) + '::before {' + decBlock + '}', 0 );
+
+	// ...
+	decBlock += '-webkit-transform: translate( -50%, -50% ) rotate( 135deg );';
+	decBlock += 'transform: translate( -50%, -50% ) rotate( 135deg );';
+
+	sheet.insertRule( getClass( 'itemDismiss' ) + '::after {' + decBlock + '}', 0 );
 
 	return styleElem;
 }
@@ -194,12 +240,15 @@ function buildHTMLElem( queryData, classSelector ) {
 	classSelector = classSelector || '';
 
 	var elem = document.createElement( 'div' ),
+		dismissElem = document.createElement( 'a' ),
 		textElem = document.createElement( 'span' ),
 		features = queryData.features || [],
 		textNodeArr = [],
 		textNode;
 
 	elem.setAttribute( 'class', getClass( 'item', { nameOnly: true } ) + ' ' + classSelector );
+	dismissElem.setAttribute( 'class', getClass( 'itemDismiss', { nameOnly: true } ) );
+	dismissElem.setAttribute( 'href', '#' );
 	textElem.setAttribute( 'class', getClass( 'text', { nameOnly: true } ) );
 
 	features.forEach( function( feature ) {
@@ -215,6 +264,7 @@ function buildHTMLElem( queryData, classSelector ) {
 
 	textElem.appendChild( document.createTextNode( textNode ) );
 	elem.appendChild( textElem );
+	elem.appendChild( dismissElem );
 
 	return elem;
 }
@@ -269,8 +319,18 @@ function buildStyleElemAndAddToDOM( query, classSelector ) {
 	// NOTE: Will error if assignment occurs *before* the <style> elem. is added to the DOM.
 	sheet = styleElem.sheet;
 
+	// Build styles
+	var rule = '';
+	var decBlock = '';
+
+	decBlock += 'background-color: #2ecc71;';
+	decBlock += 'opacity: 1 !important;';
+
+	rule = '.' + classSelector + ' { ' + decBlock + ' }';
+
+
 	// Insert rule into `sheet`.
-	sheet.insertRule( '.'  + classSelector + ' { background-color: #20B2AA; transform: translateX( 100% ) !important; opacity: 1 !important; }', 0 );
+	sheet.insertRule( rule , 0 );
 
 	return sheet;
 }
@@ -336,55 +396,65 @@ function buildFeatureString( key, value ) {
 }
 
 // --------------------------------------------------
-// PUBLIC FUNCTIONS
+// DEFINE CLASS
 // --------------------------------------------------
-/**
- * Initalizing function.
- *
- * @param {Object} `opts`
-*/
-function mqVis( opts ) {
-	opts = opts || null;
+var MqVis = ( function() {
+	/**
+	 * Initalizing function.
+	 *
+	 * @param {Object} `opts`
+	*/
+	function MqVis( opts ) {
+		opts = opts || null;
 
-	// Break out of function if no `opts` provided.
-	if ( !opts ) { throw 'Did not receive `opts` argument on initialization.'; }
+		this.sheets = [];
+		this.wrapper = buildAndReturnWrapperElem();
 
-	// Add 'base' stylesheets to document.
-	buildAndInsertBaseStyles();
+		// Break out of function if no `opts` provided.
+		if ( !opts ) { throw 'Did not receive `opts` argument on initialization.'; }
 
-	// Declare vars.
-	var wrapper = buildAndReturnWrapperElem(),
-		sheets = [];
+		// Add 'base' stylesheets to document.
+		buildAndInsertBaseStyles();
 
-	if ( opts.queries ) {
-		for ( var i = 0, x = opts.queries.length; i < x; i ++ ) {
-			var query = opts.queries[i],
-				classSelector,
-				elem;
+		if ( opts.queries ) {
+			for ( var i = 0, x = opts.queries.length; i < x; i ++ ) {
+				var query = opts.queries[i],
+					classSelector,
+					elem;
 
-			// Build selector.
-			classSelector = buildClassSelector();
+				// Build selector.
+				classSelector = buildClassSelector();
 
-			// Construct styles and add to DOM.
-			sheets.push( buildStyleElemAndAddToDOM( query, classSelector ) );
+				// Construct styles and add to DOM.
+				this.sheets.push( buildStyleElemAndAddToDOM( query, classSelector ) );
 
-			// Build elem.
-			elem = buildHTMLElem( query, classSelector );
+				// Build elem.
+				elem = buildHTMLElem( query, classSelector );
 
-			// Add elem. to `wrapper`.
-			addElemToContainer( elem, wrapper );
+				// Add elem. to `wrapper`.
+				addElemToContainer( elem, this.wrapper );
+			}
 		}
+
+		// Add `wrapper` to DOM.
+		addElemToContainer( this.wrapper, document.getElementsByTagName( 'body' )[0] );
+
+		// Add event listeners.
+		window.addEventListener( 'click', function( e ) {
+			if ( e.target.classList.contains( getClass( 'itemDismiss', { nameOnly: true } ) ) ) {
+				e.target.parentNode.remove();
+			}
+		} );
+
+		return this;
 	}
 
-	// Add `wrapper` to DOM.
-	addElemToContainer( wrapper, document.getElementsByTagName( 'body' )[0] );
-
-	return { sheets: sheets };
-}
+	return MqVis;
+} )();
 
 // --------------------------------------------------
 // PUBLIC API
 // --------------------------------------------------
-module.exports = mqVis;
+module.exports = MqVis;
 
 },{}]},{},[1])

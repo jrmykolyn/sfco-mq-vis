@@ -1,0 +1,19 @@
+{
+  "name": "sfco-bp-vis",
+  "version": "0.0.0",
+  "description": "MQ Vis. is a JavaScript utility that allows developers to quickly 'visualize' one or more media queries.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/jrmykolyn/sfco-mq-vis.git"
+  },
+  "author": "Jesse R Mykolyn",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/jrmykolyn/sfco-mq-vis/issues"
+  },
+  "homepage": "https://github.com/jrmykolyn/sfco-mq-vis#readme"
+}

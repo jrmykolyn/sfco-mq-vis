@@ -3,6 +3,7 @@
 // --------------------------------------------------
 const gulp = require( 'gulp' );
 const browserify = require( 'gulp-browserify' );
+const minify = require( 'gulp-minify' );
 const rename = require( 'gulp-rename' );
 const PathMap = require( 'sfco-path-map' );
 
@@ -32,6 +33,17 @@ gulp.task( 'scripts', function() {
 			} )
 		)
 		.pipe( gulp.dest( PATHS.demoScriptsDest ) );
+} );
+
+/// TODO[@jrmykolyn] - Consolidate with `scipts` task.
+gulp.task( 'scripts:minify', function() {
+	return gulp.src( './demo/public/js/bundle.js' ) /// TODO[@jrmykolyn] - Replace with `PATHS` ref.
+		.pipe( minify( {
+			ext: {
+				min: '.min.js'
+			}
+		} ) )
+		.pipe( gulp.dest( './demo/public/js' ) ); /// TODO[@jrmykolyn] - Replace with `PATHS` ref.
 } );
 
 gulp.task( 'watch', function() {

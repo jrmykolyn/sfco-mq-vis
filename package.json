@@ -15,5 +15,11 @@
   "bugs": {
     "url": "https://github.com/jrmykolyn/sfco-mq-vis/issues"
   },
-  "homepage": "https://github.com/jrmykolyn/sfco-mq-vis#readme"
+  "homepage": "https://github.com/jrmykolyn/sfco-mq-vis#readme",
+  "devDependencies": {
+    "gulp": "^3.9.1",
+    "gulp-browserify": "^0.5.1",
+    "gulp-rename": "^1.2.2",
+    "sfco-path-map": "^0.4.1"
+  }
 }

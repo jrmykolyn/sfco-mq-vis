@@ -28,6 +28,19 @@ try {
 
 	( function() {
 		/* -------------------------------------------------- */
+		/* Private Vars. */
+		/* -------------------------------------------------- */
+		var DEFAULTS = {
+			identifiers: {
+				namespace: 'sfco-bp-vis',
+				wrapper: 'wrapper',
+				item: 'item',
+				text: 'text',
+				joinWith: '-'
+			}
+		};
+
+		/* -------------------------------------------------- */
 		/* Private Functions */
 		/* -------------------------------------------------- */
 		/**
@@ -78,6 +91,24 @@ try {
 		/**
 		 * ...
 		 */
+		function getClass( type, options ) {
+			options = ( options && typeof options === 'object' ) ? options : {};
+
+			try {
+				var className = DEFAULTS.identifiers.namespace + DEFAULTS.identifiers.joinWith + DEFAULTS.identifiers[ type ];
+
+				return ( options.nameOnly ) ? className : '.' + className;
+			} catch ( err ) {
+				console.log( err );
+
+				return '';
+			}
+		}
+
+
+		/**
+		 * ...
+		 */
 		/// TODO[@jrmykolyn] - Add documentation.
 		/// TODO[@jrmykolyn] - Consolidate <style> elem. costruction with duplicate logic in other function.
 		function buildAndInsertBaseStyles() {
@@ -109,7 +140,7 @@ try {
 			decBlock += 'left: 0;';
 			decBlock += 'transform: translateX( -100% );';
 
-			sheet.insertRule( '.sfco-bp-vis-wrapper {' + decBlock + '}', 0 );
+			sheet.insertRule( getClass( 'wrapper' ) + '{' + decBlock + '}', 0 );
 
 			// ...
 			decBlock = '';
@@ -125,14 +156,14 @@ try {
 			decBlock += '-webkit-transition: transform 0.2s ease-in-out, transform 0.2s ease-in-out, opacity 0.2s, background-color 0.2s;';
 			decBlock += 'transition: transform 0.2s ease-in-out, transform 0.2s ease-in-out, opacity 0.2s, background-color 0.2s;';
 
-			sheet.insertRule( '.sfco-bp-vis-item {' + decBlock + '}', 0 );
+			sheet.insertRule( getClass( 'item' ) + '{' + decBlock + '}', 0 );
 
 			// ...
 			decBlock = '';
 			decBlock += 'opacity: 0.8;';
 			decBlock += 'transform: translateX( 100% );';
 
-			sheet.insertRule( '.sfco-bp-vis-item:hover {' + decBlock + '}', 0 );
+			sheet.insertRule( getClass( 'item' ) + ':hover {' + decBlock + '}', 0 );
 
 			// ...
 			decBlock = '';
@@ -148,7 +179,7 @@ try {
 			decBlock += 'text-overflow: ellipsis;';
 			decBlock += 'overflow: hidden;';
 
-			sheet.insertRule( '.sfco-bp-vis-text {' + decBlock + '}', 0 );
+			sheet.insertRule( getClass( 'text' ) + '{' + decBlock + '}', 0 );
 
 			return styleElem;
 		}
@@ -176,7 +207,7 @@ try {
 		function buildAndReturnWrapperElem() {
 			var wrapper = document.createElement( 'div' );
 
-			wrapper.setAttribute( 'class' , 'sfco-bp-vis-wrapper' );
+			wrapper.setAttribute( 'class' , getClass( 'wrapper', { nameOnly: true } ) );
 
 			return wrapper;
 		}
@@ -201,8 +232,8 @@ try {
 				textNodeArr = [],
 				textNode;
 
-			elem.setAttribute( 'class', 'sfco-bp-vis-item ' + classSelector );
-			textElem.setAttribute( 'class', 'sfco-bp-vis-text' );
+			elem.setAttribute( 'class', getClass( 'item', { nameOnly: true } ) + ' ' + classSelector );
+			textElem.setAttribute( 'class', getClass( 'text', { nameOnly: true } ) );
 
 			features.forEach( function( feature ) {
 				var key = feature.key;
@@ -230,7 +261,7 @@ try {
 		 * @return {String}
 		*/
 		function buildClassSelector() {
-			var output = 'sfco-bp-vis-item--',
+			var output = getClass( 'item', { nameOnly: true } ) + '--',
 				numStr = Math.random().toString().substring( 2, 20 );
 
 			return output + numStr;

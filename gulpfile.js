@@ -2,6 +2,7 @@
 // IMPORT MODULES
 // --------------------------------------------------
 const gulp = require( 'gulp' );
+const babel = require( 'gulp-babel' );
 const browserify = require( 'gulp-browserify' );
 const minify = require( 'gulp-minify' );
 const rename = require( 'gulp-rename' );
@@ -23,7 +24,17 @@ const PATHS = new PathMap( {
 // --------------------------------------------------
 gulp.task( 'default', [ 'scripts', 'watch' ] );
 
-gulp.task( 'scripts', function() {
+gulp.task( 'scripts', [ 'scripts:transpile', 'scripts:demo', 'scripts:demo-minify' ] )
+
+gulp.task( 'scripts:transpile', function() {
+	return gulp.src( './src/**/*.js' )
+	.pipe( babel( {
+		presets: [ 'env' ]
+	} ) )
+	.pipe( gulp.dest( './lib' ) );
+} );
+
+gulp.task( 'scripts:demo', function() {
 	return gulp.src( PATHS.demoScriptsSrc )
 		.pipe( browserify() )
 		.pipe( rename(
@@ -35,8 +46,9 @@ gulp.task( 'scripts', function() {
 		.pipe( gulp.dest( PATHS.demoScriptsDest ) );
 } );
 
+
 /// TODO[@jrmykolyn] - Consolidate with `scipts` task.
-gulp.task( 'scripts:minify', function() {
+gulp.task( 'scripts:demo-minify', function() {
 	return gulp.src( './demo/public/js/bundle.js' ) /// TODO[@jrmykolyn] - Replace with `PATHS` ref.
 		.pipe( minify( {
 			ext: {

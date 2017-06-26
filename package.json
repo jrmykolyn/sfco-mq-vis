@@ -1,5 +1,5 @@
 {
-  "name": "sfco-bp-vis",
+  "name": "sfco-mq-vis",
   "version": "0.0.0",
   "description": "MQ Vis. is a JavaScript utility that allows developers to quickly 'visualize' one or more media queries.",
   "main": "index.js",
@@ -17,10 +17,16 @@
   },
   "homepage": "https://github.com/jrmykolyn/sfco-mq-vis#readme",
   "devDependencies": {
+    "babel-env": "^2.4.1",
     "gulp": "^3.9.1",
+    "gulp-babel": "^6.1.2",
     "gulp-browserify": "^0.5.1",
     "gulp-minify": "^1.0.0",
     "gulp-rename": "^1.2.2",
     "sfco-path-map": "^0.4.1"
+  },
+  "dependencies": {
+    "react": "^15.6.1",
+    "react-dom": "^15.6.1"
   }
 }

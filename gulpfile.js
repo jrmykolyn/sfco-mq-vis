@@ -12,6 +12,7 @@ const PathMap = require( 'sfco-path-map' );
 // DECLARE VARS
 // --------------------------------------------------
 const PATHS = new PathMap( {
+	src: './src',
 	demo: './demo',
 	demoSrc: '{{demo}}/src',
 	demoDest: '{{demo}}/public',
@@ -27,7 +28,7 @@ gulp.task( 'default', [ 'scripts', 'watch' ] );
 gulp.task( 'scripts', [ 'scripts:transpile', 'scripts:demo', 'scripts:demo-minify' ] )
 
 gulp.task( 'scripts:transpile', function() {
-	return gulp.src( './src/**/*.js' )
+	return gulp.src( `${PATHS.src}/**/*.js` )
 	.pipe( babel( {
 		presets: [ 'env' ]
 	} ) )
@@ -59,5 +60,6 @@ gulp.task( 'scripts:demo-minify', function() {
 } );
 
 gulp.task( 'watch', function() {
-	gulp.watch( PATHS.demoScriptsSrc, [ 'scripts' ] );
+	gulp.watch( `${PATHS.src}/**/*.js`, [ 'scripts' ] );
+	gulp.watch( PATHS.demoScriptsSrc, [ 'scripts:demo' ] );
 } );

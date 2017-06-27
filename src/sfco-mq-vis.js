@@ -37,10 +37,12 @@ var MqVis = ( function() {
 
 		var _this = this;
 
+		/// TODO[@jrmykolyn] - Review assignment below, remove if possible.
 		_this.sheets = [];
 
+		/// TODO[@jrmykolyn] - Remove block below.
 		// Add 'base' stylesheets to document.
-		buildAndInsertBaseStyles();
+		// buildAndInsertBaseStyles();
 
 		/// TEMP - START
 		var target = document.createElement( 'div' );

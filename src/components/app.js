@@ -18,6 +18,8 @@ class App extends React.Component {
 	}
 
 	render() {
+		let _this = this;
+
 		let wrapperStyles = {
 			width: '100%',
 			maxWidth: '350px',
@@ -47,9 +49,9 @@ class App extends React.Component {
 		let queryElems = [];
 
 		try {
-			queryElems = this.state.data.queries.map( ( query ) => {
+			queryElems = this.state.data.queries.map( ( query, index ) => {
 				return (
-					<Query queryData={ query }/>
+					<Query index={index} queryData={ query } removeQuery={_this.removeQuery.bind( this )} />
 				);
 			} );
 		} catch ( err ) {
@@ -72,6 +74,12 @@ class App extends React.Component {
 
 	toggleActiveState() {
 		this.setState( { isActive: !this.state.isActive } );
+	}
+
+	removeQuery( index ) {
+		var newQueries = this.state.data.queries.filter( ( q, i ) => i !== index );
+
+		this.setState( { data: { queries: newQueries } } );
 	}
 }
 
@@ -132,7 +140,8 @@ class QueryDismiss extends React.Component {
 			right: '0',
 			transform: 'translateY( -50% )',
 			opacity: '0.5',
-			transition: 'all 0.25s'
+			transition: 'all 0.25s',
+			cursor: 'pointer'
 		};
 
 		let ctaStyles = {
@@ -150,7 +159,7 @@ class QueryDismiss extends React.Component {
 		let ctaStylesAlt = Object.assign( JSON.parse( JSON.stringify( ctaStyles ) ), { transform: 'translate( -50%, -50% ) rotate( 135deg )' } );
 
 		return (
-			<a className="sfco-mq-vis-item-dimiss" style={styles}>
+			<a className="sfco-mq-vis-item-dimiss" style={styles} onClick={this.props.remove}>
 				<span style={ctaStyles}></span>
 				<span style={ctaStylesAlt}></span>
 			</a>
@@ -177,9 +186,13 @@ class Query extends React.Component {
 		return (
 			<div className={'sfco-mq-vis-item ' + uniqueClassSelector} style={styles}>
 				<QueryText text={this.buildQueryString( this.props.queryData.features )} />
-				<QueryDismiss />
+				<QueryDismiss remove={this.remove.bind( this )}/>
 			</div>
 		);
+	}
+
+	remove() {
+		this.props.removeQuery( this.props.index );
 	}
 
 	/**

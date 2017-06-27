@@ -79,6 +79,10 @@ var App = function (_React$Component) {
 	_createClass(App, [{
 		key: 'render',
 		value: function render() {
+			var _this3 = this;
+
+			var _this = this;
+
 			var wrapperStyles = {
 				width: '100%',
 				maxWidth: '350px',
@@ -108,9 +112,11 @@ var App = function (_React$Component) {
 			var queryElems = [];
 
 			try {
-				queryElems = this.state.data.queries.map(function (query) {
+				queryElems = this.state.data.queries.map(function (query, index) {
 					return _jsx(Query, {
-						queryData: query
+						index: index,
+						queryData: query,
+						removeQuery: _this.removeQuery.bind(_this3)
 					});
 				});
 			} catch (err) {
@@ -135,6 +141,15 @@ var App = function (_React$Component) {
 		key: 'toggleActiveState',
 		value: function toggleActiveState() {
 			this.setState({ isActive: !this.state.isActive });
+		}
+	}, {
+		key: 'removeQuery',
+		value: function removeQuery(index) {
+			var newQueries = this.state.data.queries.filter(function (q, i) {
+				return i !== index;
+			});
+
+			this.setState({ data: { queries: newQueries } });
 		}
 	}]);
 
@@ -235,7 +250,8 @@ var QueryDismiss = function (_React$Component4) {
 				right: '0',
 				transform: 'translateY( -50% )',
 				opacity: '0.5',
-				transition: 'all 0.25s'
+				transition: 'all 0.25s',
+				cursor: 'pointer'
 			};
 
 			var ctaStyles = {
@@ -254,7 +270,8 @@ var QueryDismiss = function (_React$Component4) {
 
 			return _jsx('a', {
 				className: 'sfco-mq-vis-item-dimiss',
-				style: styles
+				style: styles,
+				onClick: this.props.remove
 			}, void 0, _jsx('span', {
 				style: ctaStyles
 			}), _jsx('span', {
@@ -265,8 +282,6 @@ var QueryDismiss = function (_React$Component4) {
 
 	return QueryDismiss;
 }(React.Component);
-
-var _ref = _jsx(QueryDismiss, {});
 
 var Query = function (_React$Component5) {
 	_inherits(Query, _React$Component5);
@@ -299,7 +314,14 @@ var Query = function (_React$Component5) {
 				style: styles
 			}, void 0, _jsx(QueryText, {
 				text: this.buildQueryString(this.props.queryData.features)
-			}), _ref);
+			}), _jsx(QueryDismiss, {
+				remove: this.remove.bind(this)
+			}));
+		}
+	}, {
+		key: 'remove',
+		value: function remove() {
+			this.props.removeQuery(this.props.index);
 		}
 
 		/**
@@ -492,80 +514,6 @@ var DEFAULTS = {
 };
 
 // --------------------------------------------------
-// PRIVATE FUNCTIONS
-// --------------------------------------------------
-/**
- * ...
- */
-function getClass(type, options) {
-	options = options && (typeof options === 'undefined' ? 'undefined' : _typeof(options)) === 'object' ? options : {};
-
-	try {
-		var className = DEFAULTS.identifiers.namespace + DEFAULTS.identifiers.joinWith + DEFAULTS.identifiers[type];
-
-		return options.nameOnly ? className : '.' + className;
-	} catch (err) {
-		console.log(err);
-
-		return '';
-	}
-}
-
-/**
- * ...
- */
-/// TODO[@jrmykolyn] - Add documentation.
-/// TODO[@jrmykolyn] - Consolidate <style> elem. costruction with duplicate logic in other function.
-function buildAndInsertBaseStyles() {
-	var styleElem = document.createElement('style');
-	var sheet;
-
-	// WebKit hack, borrowed from David Walsh:
-	// Insert empty text node into `styleElem`.
-	styleElem.appendChild(document.createTextNode(''));
-
-	// Add `styleElem` to DOM.
-	document.head.appendChild(styleElem);
-
-	// Update `sheet` var.
-	// NOTE: Will error if assignment occurs *before* the <style> elem. is added to the DOM.
-	sheet = styleElem.sheet;
-
-	// Build and insert rule(s).
-	var decBlock = '';
-
-	// ...
-	decBlock = '';
-	decBlock += 'opacity: 1;';
-
-	sheet.insertRule(getClass('itemDismiss') + ':hover, ' + getClass('itemDismiss') + ':focus {' + decBlock + '}', 0);
-
-	// ...
-	decBlock = '';
-	decBlock += 'content: "";';
-	decBlock += 'width: 80%;';
-	decBlock += 'height: 1px;';
-	decBlock += 'display: block;';
-	decBlock += 'background-color: #000;';
-	decBlock += 'position: absolute;';
-	decBlock += 'top: 50%;';
-	decBlock += 'left: 50%;';
-	decBlock += '-webkit-transform: translate( -50%, -50% ) rotate( 45deg );';
-	decBlock += 'transform: translate( -50%, -50% ) rotate( 45deg );';
-	decBlock += 'transform-origin: center;';
-
-	sheet.insertRule(getClass('itemDismiss') + '::before {' + decBlock + '}', 0);
-
-	// ...
-	decBlock += '-webkit-transform: translate( -50%, -50% ) rotate( 135deg );';
-	decBlock += 'transform: translate( -50%, -50% ) rotate( 135deg );';
-
-	sheet.insertRule(getClass('itemDismiss') + '::after {' + decBlock + '}', 0);
-
-	return styleElem;
-}
-
-// --------------------------------------------------
 // DEFINE CLASS
 // --------------------------------------------------
 var MqVis = function () {
@@ -579,10 +527,12 @@ var MqVis = function () {
 
 		var _this = this;
 
+		/// TODO[@jrmykolyn] - Review assignment below, remove if possible.
 		_this.sheets = [];
 
+		/// TODO[@jrmykolyn] - Remove block below.
 		// Add 'base' stylesheets to document.
-		buildAndInsertBaseStyles();
+		// buildAndInsertBaseStyles();
 
 		/// TEMP - START
 		var target = document.createElement('div');

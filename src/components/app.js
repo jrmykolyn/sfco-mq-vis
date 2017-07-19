@@ -15,6 +15,18 @@ class App extends React.Component {
 		}
 
 		this.state.isActive = false;
+
+		// Register event listeners.
+		window.addEventListener( 'SFCO_MQ_VIS_UPDATE', ( e ) => {
+			/// TODO[@jrmykolyn] - Update validation/event handling to be more... robust.
+			if ( typeof e === 'object' && e.detail && e.detail.data ) {
+				var data = JSON.parse( JSON.stringify( {
+					queries: [ ...this.state.data.queries, ...e.detail.data.queries ]
+				} ) );
+
+				this.setState( { data: data } );
+			}
+		} );
 	}
 
 	render() {

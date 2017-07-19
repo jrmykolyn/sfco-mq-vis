@@ -24,6 +24,19 @@ var DEFAULTS = {
 };
 
 // --------------------------------------------------
+// DECLARE FUNCTIONS
+// --------------------------------------------------
+function validateOpts( opts ) {
+	opts = ( opts && typeof opts === 'object' ) ? opts : {};
+
+	if ( !opts.queries || !Array.isArray( opts.queries ) ) {
+		opts.queries = [];
+	}
+
+	return opts;
+}
+
+// --------------------------------------------------
 // DEFINE CLASS
 // --------------------------------------------------
 var MqVis = ( function() {
@@ -31,9 +44,9 @@ var MqVis = ( function() {
 	 * Initalizing function.
 	 *
 	 * @param {Object} `opts`
-	*/
+	 */
 	function MqVis( opts ) {
-		opts = ( opts && typeof opts === 'object' ) ? opts : {};
+		opts = validateOpts( opts );
 
 		var _this = this;
 
@@ -58,7 +71,27 @@ var MqVis = ( function() {
 
 		// _this.update( opts );
 
+		_this.isInitialized = true;
+
 		return _this;
+	}
+
+	/**
+	 * Function provides an interface for updating the `MqVis` instance.
+	 *
+	 * @param {Object} `opts`
+	 */
+	MqVis.prototype.update = function( opts ) {
+		opts = validateOpts( opts );
+
+		if ( !this.isInitialized ) {
+			/// TODO[@jrmykolyn] - Consider logging message to console.
+			return;
+		}
+
+		var e = new CustomEvent( 'SFCO_MQ_VIS_UPDATE', { detail: { data: opts } } );
+
+		window.dispatchEvent( e );
 	}
 
 	return MqVis;

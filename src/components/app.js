@@ -246,6 +246,9 @@ class Query extends React.Component {
 	/**
 	 * Function creates a new 'feature string' for a given media query feature (eg. 'width', 'height', etc.).
 	 *
+	 * If the `key` and `value` are equal, the resulting 'feature' string will contain the `key` only.
+	 * This allows for the insertion of media features which do not require/support values, such as 'color', 'monochrome', etc.
+	 *
 	 * @param {string} `key`
 	 * @param {string} `value`
 	 * @return {string}
@@ -254,7 +257,7 @@ class Query extends React.Component {
 		key = ( typeof key === 'string' ) ? key : '';
 		value = ( typeof value !== 'undefined' ) ? value : '';
 
-		return `(${key}: ${value})`;
+		return ( key === value ) ? `(${key})` : `(${key}: ${value})`;
 	}
 
 	/**

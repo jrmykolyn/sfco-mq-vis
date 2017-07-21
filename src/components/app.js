@@ -103,9 +103,9 @@ class Toggle extends React.Component {
 			display: 'block',
 			backgroundColor: '#2c3e50',
 			position: 'absolute',
-			top: '20px',
+			top: '50%',
 			right: '0px',
-			transform: 'translateX( 100% )',
+			transform: 'translate( 100%, -100% )',
 			cursor: 'pointer'
 		}; /// TEMP
 

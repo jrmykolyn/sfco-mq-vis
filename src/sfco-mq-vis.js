@@ -48,32 +48,22 @@ var MqVis = ( function() {
 	function MqVis( opts ) {
 		opts = validateOpts( opts );
 
-		var _this = this;
-
-		/// TODO[@jrmykolyn] - Review assignment below, remove if possible.
-		_this.sheets = [];
-
-		/// TODO[@jrmykolyn] - Remove block below.
-		// Add 'base' stylesheets to document.
-		// buildAndInsertBaseStyles();
-
-		/// TEMP - START
+		// Build HTML and add to DOM.
 		var target = document.createElement( 'div' );
 		target.setAttribute( 'id', 'sfcoMqVisTarget' );
 		target.setAttribute( 'style', 'position: relative; z-index: 999999' );
 		document.body.appendChild( target );
 
+		// Render React component in new DOM node.
 		ReactDOM.render(
 			<App data={ opts } />,
 			document.getElementById( 'sfcoMqVisTarget' )
 		);
-		/// TEMP - END
 
-		// _this.update( opts );
+		// Update instance state/props.
+		this.isInitialized = true;
 
-		_this.isInitialized = true;
-
-		return _this;
+		return this;
 	}
 
 	/**

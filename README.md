@@ -7,6 +7,7 @@
 - [Usage](#usage)
 	- [Overview](#overview)
 	- [Instantiation](#instantiation)
+	- [Adding Media Queries](#adding-media-queries)
 - [Documentation](#documentation)
 
 ## About
@@ -93,6 +94,21 @@ var options = {
 };
 
 var mqVisRef = new MqVis( options );
+```
+
+### Adding Media Queries
+Additional media queries can be added after instantiation by using the `update()` instance method. Just like the `MqVis` constructor, the `update()` method accepts an options object with a `queries` key.
+
+```
+// Create new object of media query data.
+var newMediaQueries = {
+	queries: [
+		{ key: 'max-aspect-ratio', value: '2/1' }
+	]
+};
+
+// Update
+mqVisRef.update( newMediaQueries );
 ```
 
 ## Documentation

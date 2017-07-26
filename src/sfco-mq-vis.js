@@ -9,21 +9,6 @@ const ReactDOM = require( 'react-dom' );
 const App = require( './components/app' );
 
 // --------------------------------------------------
-// PRIVATE VARS.
-// --------------------------------------------------
-var DEFAULTS = {
-	identifiers: {
-		namespace: 'sfco-mq-vis',
-		wrapper: 'wrapper',
-		wrapperInner: 'wrapper__inner',
-		item: 'item',
-		itemDismiss: 'item-dismiss',
-		text: 'text',
-		joinWith: '-'
-	}
-};
-
-// --------------------------------------------------
 // DECLARE FUNCTIONS
 // --------------------------------------------------
 function validateOpts( opts ) {

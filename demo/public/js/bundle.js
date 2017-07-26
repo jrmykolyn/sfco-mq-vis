@@ -114,7 +114,7 @@ var App = function (_React$Component) {
 				overflow: 'visible',
 				transition: 'all 0.125s ease-in-out',
 				transform: 'translateX( -100% )'
-			}; /// TEMP
+			};
 
 			var wrapperInnerStyles = {
 				width: '100%',
@@ -194,7 +194,7 @@ var Toggle = function (_React$Component2) {
 				right: '0px',
 				transform: 'translate( 100%, -100% )',
 				cursor: 'pointer'
-			}; /// TEMP
+			};
 
 			return _jsx('a', {
 				id: 'sfcoMqVisToggle',
@@ -319,7 +319,7 @@ var Query = function (_React$Component5) {
 				padding: '10px 40px 10px 0px',
 				transition: 'all 0.2s ease-in-out',
 				position: 'relative'
-			}; /// TEMP
+			};
 
 			var uniqueClassSelector = this.buildClassSelector();
 
@@ -518,21 +518,6 @@ var ReactDOM = require('react-dom');
 var App = require('./components/app');
 
 // --------------------------------------------------
-// PRIVATE VARS.
-// --------------------------------------------------
-var DEFAULTS = {
-	identifiers: {
-		namespace: 'sfco-mq-vis',
-		wrapper: 'wrapper',
-		wrapperInner: 'wrapper__inner',
-		item: 'item',
-		itemDismiss: 'item-dismiss',
-		text: 'text',
-		joinWith: '-'
-	}
-};
-
-// --------------------------------------------------
 // DECLARE FUNCTIONS
 // --------------------------------------------------
 function validateOpts(opts) {
@@ -557,31 +542,21 @@ var MqVis = function () {
 	function MqVis(opts) {
 		opts = validateOpts(opts);
 
-		var _this = this;
-
-		/// TODO[@jrmykolyn] - Review assignment below, remove if possible.
-		_this.sheets = [];
-
-		/// TODO[@jrmykolyn] - Remove block below.
-		// Add 'base' stylesheets to document.
-		// buildAndInsertBaseStyles();
-
-		/// TEMP - START
+		// Build HTML and add to DOM.
 		var target = document.createElement('div');
 		target.setAttribute('id', 'sfcoMqVisTarget');
 		target.setAttribute('style', 'position: relative; z-index: 999999');
 		document.body.appendChild(target);
 
+		// Render React component in new DOM node.
 		ReactDOM.render(_jsx(App, {
 			data: opts
 		}), document.getElementById('sfcoMqVisTarget'));
-		/// TEMP - END
 
-		// _this.update( opts );
+		// Update instance state/props.
+		this.isInitialized = true;
 
-		_this.isInitialized = true;
-
-		return _this;
+		return this;
 	}
 
 	/**

@@ -47,7 +47,7 @@ class App extends React.Component {
 			overflow: 'visible',
 			transition: 'all 0.125s ease-in-out',
 			transform: 'translateX( -100% )'
-		}; /// TEMP
+		};
 
 		let wrapperInnerStyles = {
 			width: '100%',
@@ -107,7 +107,7 @@ class Toggle extends React.Component {
 			right: '0px',
 			transform: 'translate( 100%, -100% )',
 			cursor: 'pointer'
-		}; /// TEMP
+		};
 
 		return (
 			<a id="sfcoMqVisToggle" style={styles} onClick={this.props.onClick}></a>
@@ -189,7 +189,7 @@ class Query extends React.Component {
 			padding: '10px 40px 10px 0px',
 			transition: 'all 0.2s ease-in-out',
 			position: 'relative'
-		}; /// TEMP
+		};
 
 		let uniqueClassSelector = this.buildClassSelector();
 

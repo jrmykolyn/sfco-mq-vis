@@ -113,7 +113,8 @@ var App = function (_React$Component) {
 				left: '0',
 				overflow: 'visible',
 				transition: 'all 0.125s ease-in-out',
-				transform: 'translateX( -100% )'
+				transform: 'translateX( -100% )',
+				boxSizing: 'border-box'
 			};
 
 			var wrapperInnerStyles = {
@@ -122,7 +123,8 @@ var App = function (_React$Component) {
 				display: 'block',
 				margin: '0',
 				padding: '20px',
-				overflow: 'auto'
+				overflow: 'auto',
+				boxSizing: 'border-box'
 			};
 
 			var queryElems = [];
@@ -318,7 +320,8 @@ var Query = function (_React$Component5) {
 				borderBottom: ' 1px solid #DDD',
 				padding: '10px 40px 10px 0px',
 				transition: 'all 0.2s ease-in-out',
-				position: 'relative'
+				position: 'relative',
+				boxSizing: 'border-box'
 			};
 
 			var uniqueClassSelector = this.buildClassSelector();
@@ -515,7 +518,7 @@ var React = require('react');
 var ReactDOM = require('react-dom');
 
 // Project
-var App = require('./components/app');
+var App = require('./components/App');
 
 // --------------------------------------------------
 // DECLARE FUNCTIONS
@@ -584,7 +587,7 @@ var MqVis = function () {
 // PUBLIC API
 // --------------------------------------------------
 module.exports = MqVis;
-},{"./components/app":3,"react":187,"react-dom":35}],5:[function(require,module,exports){
+},{"./components/App":3,"react":187,"react-dom":35}],5:[function(require,module,exports){
 (function (process){
 /**
  * Copyright 2013-present, Facebook, Inc.

@@ -46,7 +46,8 @@ class App extends React.Component {
 			left: '0',
 			overflow: 'visible',
 			transition: 'all 0.125s ease-in-out',
-			transform: 'translateX( -100% )'
+			transform: 'translateX( -100% )',
+			boxSizing: 'border-box',
 		};
 
 		let wrapperInnerStyles = {
@@ -55,7 +56,8 @@ class App extends React.Component {
 			display: 'block',
 			margin: '0',
 			padding: '20px',
-			overflow: 'auto'
+			overflow: 'auto',
+			boxSizing: 'border-box',
 		};
 
 		let queryElems = [];
@@ -188,7 +190,8 @@ class Query extends React.Component {
 			borderBottom: ' 1px solid #DDD',
 			padding: '10px 40px 10px 0px',
 			transition: 'all 0.2s ease-in-out',
-			position: 'relative'
+			position: 'relative',
+			boxSizing: 'border-box',
 		};
 
 		let uniqueClassSelector = this.buildClassSelector();

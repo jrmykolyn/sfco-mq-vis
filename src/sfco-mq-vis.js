@@ -6,7 +6,7 @@ const React = require( 'react' );
 const ReactDOM = require( 'react-dom' );
 
 // Project
-const App = require( './components/app' );
+const App = require( './components/App' );
 
 // --------------------------------------------------
 // DECLARE FUNCTIONS

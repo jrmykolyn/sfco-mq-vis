@@ -1,6 +1,6 @@
 {
   "name": "sfco-mq-vis",
-  "version": "0.0.0",
+  "version": "0.1.0",
   "description": "MQ Vis. is a JavaScript utility that allows developers to quickly 'visualize' one or more media queries.",
   "main": "index.js",
   "scripts": {

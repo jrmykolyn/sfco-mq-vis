@@ -15,6 +15,8 @@
 ## About
 Media Query Visualizer (`sfco-mq-vis`) is a JavaScript package that provides an interface for programmatically creating media queries, inserting them into the DOM, and seeing whether or not they're currently active.
 
+On initialization, Media Query Visualizer is given a series of objects containing media query information (media type, features, etc.). Media Query Visualizer builds an HTML element and stylesheet for each query, and inserts both into the DOM. When a given query is satisfied, its associated HTML element is displayed as 'active'.
+
 ## Installation
 ```
 npm install ---save sfco-mq-vis

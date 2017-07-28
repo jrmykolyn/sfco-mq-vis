@@ -8,6 +8,8 @@
 	- [Overview](#overview)
 	- [Instantiation](#instantiation)
 	- [Adding Media Queries](#adding-media-queries)
+	- [Supported Media Features](#supported-media-features)
+	- [Quirks and Gotchas](#quirks-and-gotchas)
 - [Documentation](#documentation)
 
 ## About
@@ -73,7 +75,7 @@ var options = {
 		{
 			type: 'all',
 			features: [
-				{ key: 'min-width': value: '600px' }, 
+				{ key: 'min-width': value: '600px' },
 				{ key: 'max-width': value: '100rem' }
 			]
 		},
@@ -110,6 +112,49 @@ var newMediaQueries = {
 // Update
 mqVisRef.update( newMediaQueries );
 ```
+
+### Supported Media Features
+Currently, the following media features are supported:
+- width
+- min-width
+- max-width
+- height
+- min-height
+- max-height
+- aspect-ratio
+- min-aspect-ratio
+- max-aspect-ratio
+- resolution
+- min-resolution
+- max-resolution
+- orientation
+- color*
+- monochrome*
+
+For instructions on how to use the above media features, check out the [Mozilla Developer Network documentation](https://developer.mozilla.org/en-US/docs/Web/CSS/@media#Media_features).
+
+\*See the [Quirks and Gotchas](#quirks-and-gotchas) section for additional details.
+
+### Quirks and Gotchas
+The following media features *do not* accept values:
+- color
+- monochrome
+
+In order to properly inject a media query with either of these features, set the `key` and `value` equal to the name of the feature. For example:
+
+```
+var options = {
+	queries: [
+		{
+			type: 'all',
+			features: [
+				{ key: 'color': value: 'color' },
+			]
+		},
+	]
+};
+```
+If a media feature object *does not* contain a `value` key it will be ignored. However, if the values for `key` and `value` are the same (like in the example above), the query will be created, but only the `key` will be displayed.
 
 ## Documentation
 Currently, Media Query Visualizer does not include any external documentation.

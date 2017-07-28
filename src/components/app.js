@@ -81,7 +81,7 @@ class App extends React.Component {
 				<div className="sfco-mq-vis-wrapper__inner" style={wrapperInnerStyles}>
 					{ queryElems }
 				</div>
-				<Toggle onClick={this.toggleActiveState.bind( this )}/>
+				<Toggle onClick={this.toggleActiveState.bind( this )} isActive={this.state.isActive} />
 			</div>
 		);
 	}
@@ -99,7 +99,7 @@ class App extends React.Component {
 
 class Toggle extends React.Component {
 	render() {
-		const styles = {
+		let toggleStyles = {
 			width: '50px',
 			height: '50px',
 			display: 'block',
@@ -111,8 +111,34 @@ class Toggle extends React.Component {
 			cursor: 'pointer'
 		};
 
+		let toggleArrowStyles = {
+			width: '40%',
+			height: '40%',
+			display: 'block',
+			borderTop: '2px solid #FFF',
+			borderRight: '2px solid #FFF',
+			position: 'absolute',
+			top: '50%',
+			left: '50%',
+			transform: 'translate( -75%, -50% ) rotate( 45deg )',
+		}
+
+		if ( this.props.isActive ) {
+			let activeStyles = {
+				borderTop: 'none',
+				borderRight: 'none',
+				borderBottom: '2px solid #FFF',
+				borderLeft: '2px solid #FFF',
+				transform: 'translate( -25%, -50% ) rotate( 45deg )',
+			}
+
+			toggleArrowStyles = Object.assign( toggleArrowStyles, activeStyles );
+		}
+
 		return (
-			<a id="sfcoMqVisToggle" style={styles} onClick={this.props.onClick}></a>
+			<a id="sfcoMqVisToggle" style={toggleStyles} onClick={this.props.onClick}>
+				<div style={toggleArrowStyles}></div>
+			</a>
 		);
 	}
 }
@@ -124,7 +150,7 @@ class QueryText extends React.Component {
 			height: 'auto',
 			display: 'inline-block',
 			color: '#999',
-			backgroundColor: 'rgba( 0, 0, 0, 0.05 )',
+			backgroundColor: '#EEE',
 			borderRadius: '4px',
 			padding: '6px 8px 5px',
 			fontFamily: 'Helvetica, Arial, sans-serif',
@@ -302,7 +328,7 @@ class Query extends React.Component {
 		let decBlock = '';
 
 		decBlock += 'color: #2980b9 !important;';
-		decBlock += 'background-color: rgba( 41, 128, 185, 0.2 ) !important;';
+		decBlock += 'background-color: #d4e5f1 !important;';
 
 		rule = `.${classSelector} .sfco-mq-vis-item-text { ${decBlock} }`;
 

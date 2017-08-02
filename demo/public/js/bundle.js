@@ -62,6 +62,7 @@ var App = function (_React$Component) {
 		_this2.state.isActive = false;
 
 		// Register event listeners.
+		/// TODO[@jrmykolyn] - Update event name and refs. to make it more clear that this event *starts* the update process.
 		window.addEventListener('SFCO_MQ_VIS_UPDATE', function (e) {
 			/// TODO[@jrmykolyn] - Update validation/event handling to be more... robust.
 			if ((typeof e === 'undefined' ? 'undefined' : _typeof(e)) === 'object' && e.detail && e.detail.data) {
@@ -138,6 +139,14 @@ var App = function (_React$Component) {
 				onClick: this.toggleActiveState.bind(this),
 				isActive: this.state.isActive
 			}));
+		}
+	}, {
+		key: 'componentDidUpdate',
+		value: function componentDidUpdate() {
+			// Emit custom event when the update is complete.
+			var e = new CustomEvent('SFCO_MQ_VIS_UPDATE_COMPLETE');
+
+			window.dispatchEvent(e);
 		}
 	}, {
 		key: 'toggleActiveState',

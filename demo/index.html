@@ -132,8 +132,9 @@
 					]
 				};
 
-				// Invoke `mqVis()`.
-				var mqInstance = new MqVis( opts );
+				// Create new `MqVis` instance and expose it to the global scope.
+				// This allows for bettering testing of instance methods from the browser console.
+				window.mqInstance = new MqVis( opts );
 			} catch ( err ) {
 				console.error( err );
 			}

@@ -17,6 +17,7 @@ class App extends React.Component {
 		this.state.isActive = false;
 
 		// Register event listeners.
+		/// TODO[@jrmykolyn] - Update event name and refs. to make it more clear that this event *starts* the update process.
 		window.addEventListener( 'SFCO_MQ_VIS_UPDATE', ( e ) => {
 			/// TODO[@jrmykolyn] - Update validation/event handling to be more... robust.
 			if ( typeof e === 'object' && e.detail && e.detail.data ) {
@@ -84,6 +85,13 @@ class App extends React.Component {
 				<Toggle onClick={this.toggleActiveState.bind( this )} isActive={this.state.isActive} />
 			</div>
 		);
+	}
+
+	componentDidUpdate() {
+		// Emit custom event when the update is complete.
+		let e = new CustomEvent( 'SFCO_MQ_VIS_UPDATE_COMPLETE' );
+
+		window.dispatchEvent( e );
 	}
 
 	toggleActiveState() {

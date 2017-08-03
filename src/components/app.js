@@ -111,7 +111,7 @@ class Toggle extends React.Component {
 			width: '50px',
 			height: '50px',
 			display: 'block',
-			backgroundColor: '#2c3e50',
+			backgroundColor: '#5e1dbc',
 			position: 'absolute',
 			top: '50%',
 			right: '0px',
@@ -335,8 +335,8 @@ class Query extends React.Component {
 		let rule = '';
 		let decBlock = '';
 
-		decBlock += 'color: #2980b9 !important;';
-		decBlock += 'background-color: #d4e5f1 !important;';
+		decBlock += 'color: #5e1dbc !important;';
+		decBlock += 'background-color: #e2d3f8 !important;';
 
 		rule = `.${classSelector} .sfco-mq-vis-item-text { ${decBlock} }`;
 

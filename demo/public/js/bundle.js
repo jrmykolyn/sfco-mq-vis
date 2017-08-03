@@ -430,7 +430,7 @@ var Query = function (_React$Component5) {
    * Given the 'query data' and the selector, the function builds
    * a stylesheet (<style> elem.) with the appropriate media type
    * and features, adds it to the DOM, and returns a reference to
-   * the elemenet's `sheet` property.
+   * the element's `sheet` property.
    *
    * @param {Object} `queryData`
    * @param {String} `classSelector`
@@ -542,11 +542,61 @@ var App = require('./components/App');
 // --------------------------------------------------
 // DECLARE FUNCTIONS
 // --------------------------------------------------
-function validateOpts(opts) {
-	opts = opts && (typeof opts === 'undefined' ? 'undefined' : _typeof(opts)) === 'object' ? opts : {};
+/// TODO[@jrmykolyn] - Consider converting to an `MqVis` class method.
+function getDefaults() {
+	return {
+		queries: []
+	};
+}
 
-	if (!opts.queries || !Array.isArray(opts.queries)) {
+/// TODO[@jrmykolyn] - Consider converting to an `MqVis` class method.
+function sanitizeOpts(opts) {
+	opts = opts && (typeof opts === 'undefined' ? 'undefined' : _typeof(opts)) === 'object' ? JSON.parse(JSON.stringify(opts)) : getDefaults();
+
+	if (!Array.isArray(opts.queries)) {
 		opts.queries = [];
+	}
+
+	opts.queries = opts.queries.filter(function (query) {
+		return query && (typeof query === 'undefined' ? 'undefined' : _typeof(query)) === 'object';
+	}).map(function (query) {
+		var features = Array.isArray(query.features) ? query.features : [];
+
+		features = features.filter(function (feature) {
+			return feature && (typeof feature === 'undefined' ? 'undefined' : _typeof(feature)) === 'object';
+		}).filter(function (feature) {
+			return feature.key && feature.value;
+		});
+
+		return Object.assign(query, { features: features });
+	});
+
+	return opts;
+}
+
+/// TODO[@jrmykolyn] - Consider converting to an `MqVis` class method.
+/// TODO[@jrmykolyn] - Consider refactoring into a `do...while`.
+function validateOpts(opts) {
+	opts = opts && (typeof opts === 'undefined' ? 'undefined' : _typeof(opts)) === 'object' ? opts : getDefaults();
+
+	// Ensure that `opts` object includes a valid `queries` array.
+	if (!opts.queries || !Array.isArray(opts.queries)) {
+		return null;
+	}
+
+	// Ensure that `queries` array contains at least 1x `query` object.
+	if (!opts.queries.length || !opts.queries[0] || _typeof(opts.queries[0]) !== 'object') {
+		return null;
+	}
+
+	// Ensure that each `query` object contains a valid `features` array.
+	if (!Array.isArray(opts.queries[0].features) || !opts.queries[0].features.length) {
+		return null;
+	}
+
+	// Ensure that each `feature` object contains the correct properties.
+	if (_typeof(opts.queries[0].features[0].key) === undefined || _typeof(opts.queries[0].features[0].value) === undefined) {
+		return null;
 	}
 
 	return opts;
@@ -562,7 +612,11 @@ var MqVis = function () {
   * @param {Object} `opts`
   */
 	function MqVis(opts) {
-		opts = validateOpts(opts);
+		// On instantiation, massage `opts` into correct shape via `sanitizeOpts()`.
+		opts = sanitizeOpts(opts);
+
+		var defaults = getDefaults();
+		var settings = Object.assign(defaults, opts);
 
 		// Build HTML and add to DOM.
 		var target = document.createElement('div');
@@ -587,13 +641,21 @@ var MqVis = function () {
   * @param {Object} `opts`
   */
 	MqVis.prototype.update = function (opts) {
+		// On update, `opts` must be valid.
 		opts = validateOpts(opts);
 
-		if (!this.isInitialized) {
-			/// TODO[@jrmykolyn] - Consider logging message to console.
+		// Break out of method if:
+		// - `opts` are not valid;
+		// - OR instance has not been init'd.
+		if (!opts || !this.isInitialized) {
+			var e = new CustomEvent('SFCO_MQ_VIS_UPDATE_FAILED', { detail: { data: opts } });
+
+			window.dispatchEvent(e);
+
 			return;
 		}
 
+		// Otherwise, emit 'update' event.
 		var e = new CustomEvent('SFCO_MQ_VIS_UPDATE', { detail: { data: opts } });
 
 		window.dispatchEvent(e);

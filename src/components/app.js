@@ -301,7 +301,7 @@ class Query extends React.Component {
 	 * Given the 'query data' and the selector, the function builds
 	 * a stylesheet (<style> elem.) with the appropriate media type
 	 * and features, adds it to the DOM, and returns a reference to
-	 * the elemenet's `sheet` property.
+	 * the element's `sheet` property.
 	 *
 	 * @param {Object} `queryData`
 	 * @param {String} `classSelector`

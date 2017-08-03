@@ -3,6 +3,16 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](http://keepachangelog.com/) and this project adheres to [Semantic Versioning](http://semver.org/).
 
+## [0.2.0] - 2017-08-02
+### Added
+- Added `TODO.md` file.
+- Argument sanitization and validation methods are now run on `MqVis` instantiation/update.
+- `SFCO_MQ_VIS_UPDATE_COMPLETE` now dispatched from `window` on successful update.
+- `SFCO_MQ_VIS_UPDATE_FAILED` now dispatched from `window` on failed update.
+
+### Changed
+- Fixed typo in component documentation.
+
 ## [0.1.1] - 2017-07-31
 ### Changed
 - Added 'Caveats' section to `README.md`
